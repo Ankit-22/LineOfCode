@@ -1,0 +1,41 @@
+var linguistPromise = new Promise( (resolve, reject) => {
+    	$.ajax({
+        url: 'https://api.github.com/repos/github/linguist/git/blobs/50854668d4f8c53e710d49c669be3d311849eef0',
+        success: result => {
+          var decoded_string = atob(result.content);
+          resolve(decoded_string);
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+          reject(textStatus);
+        },
+		  });
+});
+
+var convertLinguistDataToJson = linguistData => {
+	var linguistLines = linguistData.split('\n');
+    var jsonData = [];
+    var flag = false;
+    var flag2 = false;
+    linguistLines.forEach( (linguistLine) => {
+    	if(flag && !linguistLine.startsWith("  ")) flag = false;
+    	else if(flag) {
+        	if(linguistLine.startsWith("  extensions:")) flag2 = true;
+            else if(flag2 && !linguistLine.startsWith("  -")) flag2 = false;
+            else if(flag2) jsonData[jsonData.length - 1].extensions.push(linguistLine);
+        }
+    	if(!(linguistLine.startsWith("#") || linguistLine.startsWith(" ") || linguistLine.startsWith("-") || linguistLine.length == 0)) {
+        	jsonData.push({language: linguistLine, extensions: []});
+            flag = true;
+        }
+    });
+    return jsonData;
+};
+
+linguistPromise.then(
+	data => {
+		console.log(convertLinguistDataToJson(data));
+	},
+	error => {
+		console.log(error);
+	}
+);
