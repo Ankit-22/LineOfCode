@@ -13,30 +13,30 @@ var linguistPromise = new Promise( (resolve, reject) => {
 
 var convertLinguistJsonArrayToObject = jsonArray => {
 	var linguistJsonObject = {};
-    jsonArray.forEach( (jsonObject) => {
-    	linguistJsonObject[jsonObject.language] = jsonObject.extensions;
-    });
-    return linguistJsonObject;
+	jsonArray.forEach( (jsonObject) => {
+		linguistJsonObject[jsonObject.language] = jsonObject.extensions;
+	});
+	return linguistJsonObject;
 };
 
 var convertLinguistDataToJson = linguistData => {
 	var linguistLines = linguistData.split('\n');
-    var jsonData = [];
-    var flag = false;
-    var flag2 = false;
-    linguistLines.forEach( (linguistLine) => {
-    	if(flag && !linguistLine.startsWith("  ")) flag = false;
-    	else if(flag) {
-        	if(linguistLine.startsWith("  extensions:")) flag2 = true;
-            else if(flag2 && !linguistLine.startsWith("  -")) flag2 = false;
-            else if(flag2) jsonData[jsonData.length - 1].extensions.push(linguistLine.slice(5, -1));
-        }
-    	if(!(linguistLine.startsWith("#") || linguistLine.startsWith(" ") || linguistLine.startsWith("-") || linguistLine.length == 0)) {
-        	jsonData.push({language: linguistLine.slice(0, -1), extensions: []});
-            flag = true;
-        }
-    });
-    return convertLinguistJsonArrayToObject(jsonData);
+	var jsonData = [];
+	var flag = false;
+	var flag2 = false;
+	linguistLines.forEach( (linguistLine) => {
+		if(flag && !linguistLine.startsWith("  ")) flag = false;
+		else if(flag) {
+			if(linguistLine.startsWith("  extensions:")) flag2 = true;
+			else if(flag2 && !linguistLine.startsWith("  -")) flag2 = false;
+			else if(flag2) jsonData[jsonData.length - 1].extensions.push(linguistLine.slice(5, -1));
+		}
+		if(!(linguistLine.startsWith("#") || linguistLine.startsWith(" ") || linguistLine.startsWith("-") || linguistLine.length == 0)) {
+			jsonData.push({language: linguistLine.slice(0, -1), extensions: []});
+			flag = true;
+		}
+	});
+	return convertLinguistJsonArrayToObject(jsonData);
 };
 
 linguistPromise.then(
