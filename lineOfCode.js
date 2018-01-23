@@ -1,5 +1,5 @@
-var getLinesOfCode = gitUrl => {
-	var linesOfCodePromise = new Promise( (resolve, reject) => {
+var getLinesOfCodePromise = gitUrl => {
+	return new Promise( (resolve, reject) => {
 		$.ajax({
 			url: gitUrl,
 			success: result => {
@@ -11,14 +11,4 @@ var getLinesOfCode = gitUrl => {
 			},
 		});
 	});
-
-	linesOfCodePromise.then(
-		data => {
-			return data;
-		},
-		error => {
-			console.log(error);
-			return -1;
-		}
-	);
 };

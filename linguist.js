@@ -1,15 +1,4 @@
-var linguistPromise = new Promise( (resolve, reject) => {
-    	$.ajax({
-		url: 'https://api.github.com/repos/github/linguist/git/blobs/50854668d4f8c53e710d49c669be3d311849eef0',
-		success: result => {
-		  var decoded_string = atob(result.content);
-		  resolve(decoded_string);
-		},
-		error: (jqXHR, textStatus, errorThrown) => {
-		  reject(textStatus);
-		},
-	});
-});
+var linguistObject, linguistInverseObject;
 
 var convertLinguistJsonArrayToObject = jsonArray => {
 	var linguistJsonObject = {};
@@ -39,9 +28,40 @@ var convertLinguistDataToJson = linguistData => {
 	return convertLinguistJsonArrayToObject(jsonData);
 };
 
+var convertObjectToInverse = linguistObject => {
+	linguistInverseObject = {};
+
+	for(var language in linguistObject)
+		linguistObject[language].forEach( extensions => {
+			linguistInverseObject[extensions] = [];
+		});
+
+	for(var language in linguistObject)
+		linguistObject[language].forEach( extensions => {
+			linguistInverseObject[extensions].push(language);
+		});
+
+	return linguistInverseObject;
+};
+
+var linguistPromise = new Promise( (resolve, reject) => {
+		$.ajax({
+		url: 'https://api.github.com/repos/github/linguist/git/blobs/50854668d4f8c53e710d49c669be3d311849eef0',
+		success: result => {
+		  var decoded_string = atob(result.content);
+		  resolve(decoded_string);
+		},
+		error: (jqXHR, textStatus, errorThrown) => {
+		  reject(textStatus);
+		},
+	});
+});
+
 linguistPromise.then(
 	data => {
-		console.log(convertLinguistDataToJson(data));
+		linguistObject = convertLinguistDataToJson(data);
+		linguistInverseObject = convertObjectToInverse(linguistObject);
+		console.log(linguistInverseObject);
 	},
 	error => {
 		console.log(error);
