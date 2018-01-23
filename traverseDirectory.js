@@ -24,5 +24,3 @@ var gitDirectoryScrapper = directoryUrl => {
 		}
 	);
 };
-
-gitDirectoryScrapper("https://api.github.com/repos/Ankit-22/AutoConnect/contents/");

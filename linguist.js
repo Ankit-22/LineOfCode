@@ -13,7 +13,7 @@ var linguistPromise = new Promise( (resolve, reject) => {
 
 var convertLinguistJsonArrayToObject = jsonArray => {
 	var linguistJsonObject = {};
-	jsonArray.forEach( (jsonObject) => {
+	jsonArray.forEach( jsonObject => {
 		linguistJsonObject[jsonObject.language] = jsonObject.extensions;
 	});
 	return linguistJsonObject;
@@ -24,7 +24,7 @@ var convertLinguistDataToJson = linguistData => {
 	var jsonData = [];
 	var flag = false;
 	var flag2 = false;
-	linguistLines.forEach( (linguistLine) => {
+	linguistLines.forEach( linguistLine => {
 		if(flag && !linguistLine.startsWith("  ")) flag = false;
 		else if(flag) {
 			if(linguistLine.startsWith("  extensions:")) flag2 = true;
