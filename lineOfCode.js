@@ -4,10 +4,10 @@ var getLinesOfCodePromise = gitUrl => {
 			url: gitUrl,
 			success: result => {
 				var decoded_string = atob(result.content);
-				resolve(decoded_string.split('\n').length - 1);
+				resolve({content: decoded_string, length: decoded_string.split('\n').length});
 			},
 			error: (jqXHR, textStatus, errorThrown) => {
-				reject(textStatus);
+				reject(errorThrown);
 			},
 		});
 	});

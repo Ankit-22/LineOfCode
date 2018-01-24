@@ -56,14 +56,3 @@ var linguistPromise = new Promise( (resolve, reject) => {
 		},
 	});
 });
-
-linguistPromise.then(
-	data => {
-		linguistObject = convertLinguistDataToJson(data);
-		linguistInverseObject = convertObjectToInverse(linguistObject);
-		console.log(linguistInverseObject);
-	},
-	error => {
-		console.log(error);
-	}
-);

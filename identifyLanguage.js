@@ -15,9 +15,20 @@ var filterLanguages = (linguistObject, filename) => {
 	var possibleExtensions = filterExtensions(filename);
 	var possibleLanguages = [];
 	if(possibleExtensions.length == 0)
-		possibleLanguages.push("Shell");
+		possibleLanguages.push("Shell Script");
 	for(var i = 0; i < possibleExtensions.length; i++)
 		if(linguistObject[possibleExtensions[i]])
 			possibleLanguages = linguistObject[possibleExtensions[i]];
 	return possibleLanguages;
+};
+
+var detectLanguage = (possibleLanguages, content) => {
+	if(possibleLanguages[0] == "Shell Script") {
+		if(content.startsWith("#!/bin/bash") || content.startsWith("#!/bin/sh") || content.startsWith("#!/bin/zsh"))
+			return "Shell"
+		return "";
+	}
+	else if(possibleLanguages.length != 1)
+		return "";
+	return possibleLanguages[0]; // Change required. Possibly ML.
 };

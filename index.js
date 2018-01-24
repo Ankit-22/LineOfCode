@@ -1,16 +1,18 @@
-var linesOfCodePromise = getLinesOfCodePromise(
-	'https://api.github.com/repos/Ankit-22/AutoConnect/git/blobs/e6b32bc7884bb98a5024981d37fec787514b56c8'
-);
-
-linesOfCodePromise.then(
+linguistPromise.then(
 	data => {
-		console.log(data);
-		return data;
+		var linguistObject = convertLinguistDataToJson(data);
+		var linguistInverseObject = convertObjectToInverse(linguistObject);
+		console.log(linguistInverseObject);
+		return linguistInverseObject;
 	},
 	error => {
 		console.log(error);
-		return -1;
+	}
+).then(
+	data => {
+		gitDirectoryScrapper('https://api.github.com/repos/Ankit-22/Algorithms_Datastructures/contents', data);
+	},
+	error => {
+		console.log(error);
 	}
 );
-
-// gitDirectoryScrapper("https://api.github.com/repos/Ankit-22/AutoConnect/contents/");
