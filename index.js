@@ -10,7 +10,7 @@ linguistPromise.then(
 	}
 ).then(
 	data => {
-		gitDirectoryScrapper('https://api.github.com/repos/Ankit-22/Algorithms_Datastructures/contents', data);
+		gitDirectoryScrapper('https://api.github.com/repos/Ankit-22/OurChatRoom/contents', data);
 	},
 	error => {
 		console.log(error);
