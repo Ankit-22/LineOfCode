@@ -36,6 +36,7 @@ var gitDirectoryScrapper = (directoryUrl, linguistData) => {
 									stats[language] = content.length;
 							}
 							console.log(stats);
+							printStats(stats);
 						},
 						error => {
 							console.log(error);

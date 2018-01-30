@@ -1,3 +1,6 @@
+var userName = getUrlParameter("user");
+var repoName = getUrlParameter("repo");
+
 linguistPromise.then(
 	data => {
 		var linguistObject = convertLinguistDataToJson(data);
@@ -10,7 +13,7 @@ linguistPromise.then(
 	}
 ).then(
 	data => {
-		gitDirectoryScrapper('https://api.github.com/repos/Ankit-22/OurChatRoom/contents', data);
+		gitDirectoryScrapper('https://api.github.com/repos/'+userName+'/'+repoName+'/contents', data);
 	},
 	error => {
 		console.log(error);
